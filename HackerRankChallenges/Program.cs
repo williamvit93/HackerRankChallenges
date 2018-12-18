@@ -23,9 +23,18 @@ namespace HackerRankChallenges
             //Console.WriteLine(pageCount(7, 4));
             //countingValleys(12, "DDUUDDUDUUUD");
 
-            var keyboards = new int[] { 4 };
-            var drives = new int[] { 5 };
-            getMoneySpent(keyboards, drives, 5);
+            //var keyboards = new int[] { 4 };
+            //var drives = new int[] { 5 };
+            //getMoneySpent(keyboards, drives, 5);
+
+            //Console.WriteLine(catAndMouse(1, 3, 2));
+            int[][] s = new int[][]
+            {
+            new int [] { 4, 9, 2 },
+            new int [] { 3, 5 ,7 },
+            new int [] { 8 ,1 ,5 }
+            };
+            formingMagicSquare(s);
 
             Console.ReadLine();
         }
@@ -121,6 +130,21 @@ namespace HackerRankChallenges
                 }
             }
             return moneySpent;
+        }
+
+        static string catAndMouse(int x, int y, int z)
+        {
+            return Math.Abs(x - z) < Math.Abs(y - z)
+                ? "Cat A"
+                : Math.Abs(x - z) == Math.Abs(y - z)
+                    ? "Mouse C"
+                    : "Cat B";
+        }
+
+        static int formingMagicSquare(int[][] s)
+        {
+
+            return 0;
         }
     }
 }
