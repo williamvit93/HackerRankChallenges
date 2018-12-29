@@ -369,105 +369,81 @@ namespace HackerRankChallenges
 
         static int formingMagicSquare(int[][] s)
         {
+            const int SIZEMAGICSQUARE = 15;
             int totalCost = 0;
 
-            var firstRow = 0;
-            var secondRow = 0;
-            var thirdRow = 0;
+            var list = new List<int>();
 
-            var firstColumn = 0;
-            var secondColumn = 0;
-            var thirdColumn = 0;
-
-            var leftDiagonal = 0;
-            var rightDiagonal = 0;
-
-            //var ar = new int[] { firstRow, secondRow, thirdRow, firstColumn, secondColumn, thirdColumn, leftDiagonal, rightDiagonal };
-
-            //var t = ar.GroupBy(l => l)
-            //             .Select(lg =>
-            //                   new
-            //                   {
-            //                       Num = lg.Key,
-            //                       Quant = lg.Count(),
-            //                   });
-
-            //var sizeMagicSquare = t.Where(x => x.Quant == t.Max(y => y.Quant)).Select(x => x.Num).FirstOrDefault();
-
-            ////VERIFICANDO OS VERTICES DA MATRIZ
-            //if (firstRow != sizeMagicSquare && firstColumn != sizeMagicSquare)
-            //    totalCost = totalCost + Math.Abs(sizeMagicSquare - firstRow);
-
-            //if (secondRow != sizeMagicSquare && secondColumn != sizeMagicSquare)
-            //    totalCost = totalCost + Math.Abs(sizeMagicSquare - secondRow);
-
-            //if (thirdRow != sizeMagicSquare && thirdColumn != sizeMagicSquare)
-            //    totalCost = totalCost + Math.Abs(sizeMagicSquare - thirdRow);
-
-
-            ////VERIFICANDO OS CANTOS CENTRAIS DA MATRIZ
-            //if (firstRow != sizeMagicSquare && secondColumn != sizeMagicSquare)
-            //    totalCost = totalCost + Math.Abs(sizeMagicSquare - firstRow);
-
-            //if (secondRow != sizeMagicSquare && firstColumn != sizeMagicSquare)
-            //    totalCost = totalCost + Math.Abs(sizeMagicSquare - secondRow);
-
-            //if (secondRow != sizeMagicSquare && thirdColumn != sizeMagicSquare)
-            //    totalCost = totalCost + Math.Abs(sizeMagicSquare - secondRow);
-
-            //if (thirdRow != sizeMagicSquare && secondColumn != sizeMagicSquare)
-            //    totalCost = totalCost + Math.Abs(sizeMagicSquare - thirdRow);
-
-            bool isMagicMatrix = false;
-            while (!isMagicMatrix)
+            while (list.Count() == 0 || list.GroupBy(x => x).ToList().Count() > 1)
             {
-                int[] list = new int[]
+                var firstRow = s[0][0] + s[0][1] + s[0][2];
+                var secondRow = s[1][0] + s[1][1] + s[1][2];
+                var thirdRow = s[2][0] + s[2][1] + s[2][2];
+
+                var firstColumn = s[0][0] + s[1][0] + s[2][0];
+                var secondColumn = s[0][1] + s[1][1] + s[2][1];
+                var thirdColumn = s[0][2] + s[1][2] + s[2][2];
+
+                var leftDiagonal = s[0][0] + s[1][1] + s[2][2];
+                var rightDiagonal = s[0][2] + s[1][1] + s[2][0];
+
+                var ar = new int[] { firstRow, secondRow, thirdRow, firstColumn, secondColumn, thirdColumn, leftDiagonal, rightDiagonal };
+
+                //VERIFICANDO OS VERTICES DA MATRIZ
+                if (firstRow != SIZEMAGICSQUARE && firstColumn != SIZEMAGICSQUARE && firstRow == firstColumn)
                 {
-                    s[0][0] + s[0][1] + s[0][2], //firstRow [0]
-                    s[1][0] + s[1][1] + s[1][2], //secondRow [1]
-                    s[2][0] + s[2][1] + s[2][2], //thirdRow [2]
-                    s[0][0] + s[1][0] + s[2][0], //firstColumn [3]
-                    s[0][1] + s[1][1] + s[2][1], //secondColumn [4]
-                    s[0][2] + s[1][2] + s[2][2], //thirdColumn [5]
-                    s[0][0] + s[1][1] + s[2][2], //leftDiagonal [6]
-                    s[0][2] + s[1][1] + s[2][0]  //rightDiagonal [7]
-                };
-
-                isMagicMatrix = list.GroupBy(x => x).Count() == 1;
-
-                if (isMagicMatrix) break;
-
-                //VERIFICA SE SÓ A POSIÇÃO [0][0] DA MATRIZ ESTÁ INCORRETA
-                if (list[0] == list[3] && list[6] != list[7] && list[1] == list[4] && list[2] == list[5])
-                {
-                    s[0][0] = s[0][0] + (list[0] - list[7]);
-                    totalCost += Math.Abs(list[0] - list[7]);
+                    var difference = Math.Abs(SIZEMAGICSQUARE - firstRow);
+                    totalCost += difference;
+                    s[0][0] = firstRow > SIZEMAGICSQUARE ? s[0][0] - difference : s[0][0] + difference;
                 }
 
-                //VERIFICA SE SÓ A POSIÇÃO [0][2] DA MATRIZ ESTÁ INCORRETA
-                if (list[0] == list[5] && list[6] != list[7] && list[1] == list[4] && list[2] == list[3])
+                if (secondRow != SIZEMAGICSQUARE && secondColumn != SIZEMAGICSQUARE && secondRow == secondColumn)
                 {
-                    s[0][2] = s[0][0] + (list[0] - list[6]);
-                    totalCost += Math.Abs(list[0] - list[6]);
+                    var difference = Math.Abs(SIZEMAGICSQUARE - secondRow);
+                    totalCost += difference;
+                    s[1][1] = secondRow > SIZEMAGICSQUARE ? s[1][1] - difference : s[1][1] + difference;
                 }
 
-                //VERIFICA SE SÓ A POSIÇÃO [2][0] DA MATRIZ ESTÁ INCORRETA
-                if (list[2] == list[3] && list[6] != list[7] && list[1] == list[4] && list[0] == list[5])
+                if (thirdRow != SIZEMAGICSQUARE && thirdColumn != SIZEMAGICSQUARE && thirdRow == thirdColumn)
                 {
-                    s[2][0] = s[2][0] + (list[2] - list[6]);
-                    totalCost += Math.Abs(list[2] - list[6]);
+                    var difference = Math.Abs(SIZEMAGICSQUARE - thirdRow);
+                    totalCost += difference;
+                    s[2][2] = thirdRow > SIZEMAGICSQUARE ? s[2][2] - difference : s[2][2] + difference;
                 }
 
-                //VERIFICA SE SÓ A POSIÇÃO [2][2] DA MATRIZ ESTÁ INCORRETA
-                if (list[2] == list[5] && list[6] != list[7] && list[1] == list[4] && list[0] == list[3])
+
+                //VERIFICANDO OS CANTOS CENTRAIS DA MATRIZ
+                if (firstRow != SIZEMAGICSQUARE && secondColumn != SIZEMAGICSQUARE && firstRow == secondColumn)
                 {
-                    s[2][2] = s[2][2] + Math.Abs(list[2] - list[7]);
-                    totalCost += Math.Abs(list[2] - list[7]);
+                    var difference = Math.Abs(SIZEMAGICSQUARE - firstRow);
+                    totalCost += difference;
+                    s[0][1] = firstRow > SIZEMAGICSQUARE ? s[0][1] - difference : s[0][1] + difference;
                 }
 
-            } 
+                if (secondRow != SIZEMAGICSQUARE && firstColumn != SIZEMAGICSQUARE && secondRow == firstColumn)
+                {
+                    var difference = Math.Abs(SIZEMAGICSQUARE - secondRow);
+                    totalCost += difference;
+                    s[1][0] = secondRow > SIZEMAGICSQUARE ? s[1][0] - difference : s[1][0] + difference;
+                }
 
+                if (secondRow != SIZEMAGICSQUARE && thirdColumn != SIZEMAGICSQUARE && secondRow == thirdColumn)
+                {
+                    var difference = Math.Abs(SIZEMAGICSQUARE - firstRow);
+                    totalCost += difference;
+                    s[0][0] = secondRow > SIZEMAGICSQUARE ? s[0][0] - difference : s[0][0] + difference;
+                }
 
+                if (thirdRow != SIZEMAGICSQUARE && secondColumn != SIZEMAGICSQUARE && thirdRow == secondColumn)
+                {
+                    var difference = Math.Abs(SIZEMAGICSQUARE - thirdRow);
+                    totalCost += difference;
+                    s[1][2] = thirdRow > SIZEMAGICSQUARE ? s[1][2] - difference : s[1][2] + difference;
+                }
+
+                list.Clear();
+                list.AddRange(ar);
+            }
 
             return totalCost;
         }
