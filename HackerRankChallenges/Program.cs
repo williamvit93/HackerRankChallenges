@@ -33,12 +33,27 @@ namespace HackerRankChallenges
 
             //Console.WriteLine(catAndMouse(1, 3, 2));
 
+            //int[][] s = new int[][]
+            //{
+            //new int [] { 4, 9, 2 },
+            //new int [] { 3, 5 ,7 },
+            //new int [] { 8 ,1 ,5 }
+            //};
+
             int[][] s = new int[][]
             {
-            new int [] { 4, 9, 2 },
-            new int [] { 3, 5 ,7 },
-            new int [] { 8 ,1 ,5 }
+            new int [] { 4, 8, 2 },
+            new int [] { 4, 5, 7 },
+            new int [] { 6, 1, 6 }
             };
+
+            //int[][] s = new int[][]
+            //{
+            //new int [] {5 ,3, 4},
+            //new int [] { 1 ,5, 8 },
+            //new int [] { 6 ,4 ,2 }
+            //};
+
             formingMagicSquare(s);
 
             Console.ReadLine();
@@ -354,31 +369,107 @@ namespace HackerRankChallenges
 
         static int formingMagicSquare(int[][] s)
         {
-            var firstRow = s[0][0] + s[0][1] + s[0][2];
-            var secondRow = s[1][0] + s[1][1] + s[1][2];
-            var thirdRow = s[2][0] + s[2][1] + s[2][2];
+            int totalCost = 0;
 
-            var firstColumn = s[0][0] + s[1][0] + s[2][0];
-            var secondColumn = s[0][1] + s[1][1] + s[2][1];
-            var thirdColumn = s[0][2] + s[1][2] + s[2][2];
+            var firstRow = 0;
+            var secondRow = 0;
+            var thirdRow = 0;
 
-            var leftDiagonal = s[0][0] + s[1][0] + s[2][0];
-            var rightDiagonal = s[0][1] + s[1][1] + s[2][1];
+            var firstColumn = 0;
+            var secondColumn = 0;
+            var thirdColumn = 0;
 
-            var ar = new int[] { firstRow, secondRow, thirdRow, firstColumn, secondColumn, thirdColumn, leftDiagonal, rightDiagonal };
+            var leftDiagonal = 0;
+            var rightDiagonal = 0;
 
-            ar.GroupBy(l => l)
-                         .Select(lg =>
-                               new
-                               {
+            //var ar = new int[] { firstRow, secondRow, thirdRow, firstColumn, secondColumn, thirdColumn, leftDiagonal, rightDiagonal };
 
-                                   Num = lg.Key,
-                                   Quant = lg.Count(),
-                               }.Num);
+            //var t = ar.GroupBy(l => l)
+            //             .Select(lg =>
+            //                   new
+            //                   {
+            //                       Num = lg.Key,
+            //                       Quant = lg.Count(),
+            //                   });
+
+            //var sizeMagicSquare = t.Where(x => x.Quant == t.Max(y => y.Quant)).Select(x => x.Num).FirstOrDefault();
+
+            ////VERIFICANDO OS VERTICES DA MATRIZ
+            //if (firstRow != sizeMagicSquare && firstColumn != sizeMagicSquare)
+            //    totalCost = totalCost + Math.Abs(sizeMagicSquare - firstRow);
+
+            //if (secondRow != sizeMagicSquare && secondColumn != sizeMagicSquare)
+            //    totalCost = totalCost + Math.Abs(sizeMagicSquare - secondRow);
+
+            //if (thirdRow != sizeMagicSquare && thirdColumn != sizeMagicSquare)
+            //    totalCost = totalCost + Math.Abs(sizeMagicSquare - thirdRow);
+
+
+            ////VERIFICANDO OS CANTOS CENTRAIS DA MATRIZ
+            //if (firstRow != sizeMagicSquare && secondColumn != sizeMagicSquare)
+            //    totalCost = totalCost + Math.Abs(sizeMagicSquare - firstRow);
+
+            //if (secondRow != sizeMagicSquare && firstColumn != sizeMagicSquare)
+            //    totalCost = totalCost + Math.Abs(sizeMagicSquare - secondRow);
+
+            //if (secondRow != sizeMagicSquare && thirdColumn != sizeMagicSquare)
+            //    totalCost = totalCost + Math.Abs(sizeMagicSquare - secondRow);
+
+            //if (thirdRow != sizeMagicSquare && secondColumn != sizeMagicSquare)
+            //    totalCost = totalCost + Math.Abs(sizeMagicSquare - thirdRow);
+
+            bool isMagicMatrix = false;
+            while (!isMagicMatrix)
+            {
+                int[] list = new int[]
+                {
+                    s[0][0] + s[0][1] + s[0][2], //firstRow [0]
+                    s[1][0] + s[1][1] + s[1][2], //secondRow [1]
+                    s[2][0] + s[2][1] + s[2][2], //thirdRow [2]
+                    s[0][0] + s[1][0] + s[2][0], //firstColumn [3]
+                    s[0][1] + s[1][1] + s[2][1], //secondColumn [4]
+                    s[0][2] + s[1][2] + s[2][2], //thirdColumn [5]
+                    s[0][0] + s[1][1] + s[2][2], //leftDiagonal [6]
+                    s[0][2] + s[1][1] + s[2][0]  //rightDiagonal [7]
+                };
+
+                isMagicMatrix = list.GroupBy(x => x).Count() == 1;
+
+                if (isMagicMatrix) break;
+
+                //VERIFICA SE SÓ A POSIÇÃO [0][0] DA MATRIZ ESTÁ INCORRETA
+                if (list[0] == list[3] && list[6] != list[7] && list[1] == list[4] && list[2] == list[5])
+                {
+                    s[0][0] = s[0][0] + (list[0] - list[7]);
+                    totalCost += Math.Abs(list[0] - list[7]);
+                }
+
+                //VERIFICA SE SÓ A POSIÇÃO [0][2] DA MATRIZ ESTÁ INCORRETA
+                if (list[0] == list[5] && list[6] != list[7] && list[1] == list[4] && list[2] == list[3])
+                {
+                    s[0][2] = s[0][0] + (list[0] - list[6]);
+                    totalCost += Math.Abs(list[0] - list[6]);
+                }
+
+                //VERIFICA SE SÓ A POSIÇÃO [2][0] DA MATRIZ ESTÁ INCORRETA
+                if (list[2] == list[3] && list[6] != list[7] && list[1] == list[4] && list[0] == list[5])
+                {
+                    s[2][0] = s[2][0] + (list[2] - list[6]);
+                    totalCost += Math.Abs(list[2] - list[6]);
+                }
+
+                //VERIFICA SE SÓ A POSIÇÃO [2][2] DA MATRIZ ESTÁ INCORRETA
+                if (list[2] == list[5] && list[6] != list[7] && list[1] == list[4] && list[0] == list[3])
+                {
+                    s[2][2] = s[2][2] + Math.Abs(list[2] - list[7]);
+                    totalCost += Math.Abs(list[2] - list[7]);
+                }
+
+            } 
 
 
 
-            return 0;
+            return totalCost;
         }
     }
 }
