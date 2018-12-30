@@ -390,11 +390,36 @@ namespace HackerRankChallenges
                 var ar = new int[] { firstRow, secondRow, thirdRow, firstColumn, secondColumn, thirdColumn, leftDiagonal, rightDiagonal };
 
                 //VERIFICANDO OS VERTICES DA MATRIZ
-                if (firstRow != SIZEMAGICSQUARE && firstColumn != SIZEMAGICSQUARE && firstRow == firstColumn)
+                //Canto esquerdo cima
+                if (firstRow != SIZEMAGICSQUARE && firstColumn != SIZEMAGICSQUARE && firstRow == firstColumn && firstRow == leftDiagonal)
                 {
                     var difference = Math.Abs(SIZEMAGICSQUARE - firstRow);
                     totalCost += difference;
                     s[0][0] = firstRow > SIZEMAGICSQUARE ? s[0][0] - difference : s[0][0] + difference;
+                }
+
+                //Canto direito cima
+                if (firstRow != SIZEMAGICSQUARE && thirdColumn != SIZEMAGICSQUARE && firstRow == thirdColumn && firstRow == rightDiagonal)
+                {
+                    var difference = Math.Abs(SIZEMAGICSQUARE - firstRow);
+                    totalCost += difference;
+                    s[0][2] = firstRow > SIZEMAGICSQUARE ? s[0][2] - difference : s[0][2] + difference;
+                }
+
+                //Canto esquerdo baixo
+                if (thirdRow != SIZEMAGICSQUARE && firstColumn != SIZEMAGICSQUARE && thirdRow == firstColumn && thirdRow == rightDiagonal)
+                {
+                    var difference = Math.Abs(SIZEMAGICSQUARE - thirdRow);
+                    totalCost += difference;
+                    s[2][0] = thirdRow > SIZEMAGICSQUARE ? s[2][0] - difference : s[2][0] + difference;
+                }
+
+                //Canto direito baixo
+                if (thirdRow != SIZEMAGICSQUARE && thirdColumn != SIZEMAGICSQUARE && thirdRow == thirdColumn && thirdRow == leftDiagonal)
+                {
+                    var difference = Math.Abs(SIZEMAGICSQUARE - thirdRow);
+                    totalCost += difference;
+                    s[2][2] = thirdRow > SIZEMAGICSQUARE ? s[2][2] - difference : s[2][2] + difference;
                 }
 
                 if (secondRow != SIZEMAGICSQUARE && secondColumn != SIZEMAGICSQUARE && secondRow == secondColumn)
@@ -412,6 +437,9 @@ namespace HackerRankChallenges
                 }
 
 
+
+                //CRIAR OUTRA CONDIÇÃO PARA NÃO PERMITIR A DUPLICAÇÃO DOS NUMEROS CENTRAIS
+
                 //VERIFICANDO OS CANTOS CENTRAIS DA MATRIZ
                 if (firstRow != SIZEMAGICSQUARE && secondColumn != SIZEMAGICSQUARE && firstRow == secondColumn)
                 {
@@ -420,7 +448,7 @@ namespace HackerRankChallenges
                     s[0][1] = firstRow > SIZEMAGICSQUARE ? s[0][1] - difference : s[0][1] + difference;
                 }
 
-                if (secondRow != SIZEMAGICSQUARE && firstColumn != SIZEMAGICSQUARE && secondRow == firstColumn)
+                if (secondRow != SIZEMAGICSQUARE && firstColumn != SIZEMAGICSQUARE /*&& secondRow == firstColumn*/)
                 {
                     var difference = Math.Abs(SIZEMAGICSQUARE - secondRow);
                     totalCost += difference;
