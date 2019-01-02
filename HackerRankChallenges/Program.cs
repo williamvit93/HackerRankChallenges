@@ -40,12 +40,12 @@ namespace HackerRankChallenges
             //new int [] { 8 ,1 ,5 }
             //};
 
-            int[][] s = new int[][]
-            {
-            new int [] { 4, 8, 2 },
-            new int [] { 4, 5, 7 },
-            new int [] { 6, 1, 6 }
-            };
+            //int[][] s = new int[][]
+            //{
+            //new int [] { 4, 8, 2 },
+            //new int [] { 4, 5, 7 },
+            //new int [] { 6, 1, 6 }
+            //};
 
             //int[][] s = new int[][]
             //{
@@ -54,7 +54,24 @@ namespace HackerRankChallenges
             //new int [] { 6 ,4 ,2 }
             //};
 
-            formingMagicSquare(s);
+            /*  TESTAR
+             *  1 3 8
+                6 4 1
+                2 6 5 = 9
+
+                4 9 2
+                9 7 6
+                3 5 8 = 18
+
+                6 4 6
+                9 9 3
+                9 9 7 = 21
+
+                9 8 9
+                1 6 7
+                8 9 7 = 23*/
+
+            Console.WriteLine(formingMagicSquare(s));
 
             Console.ReadLine();
         }
@@ -376,16 +393,9 @@ namespace HackerRankChallenges
 
             while (list.Count() == 0 || list.GroupBy(x => x).ToList().Count() > 1)
             {
-                var firstRow = s[0][0] + s[0][1] + s[0][2];
-                var secondRow = s[1][0] + s[1][1] + s[1][2];
-                var thirdRow = s[2][0] + s[2][1] + s[2][2];
+                int firstRow, secondRow, thirdRow, firstColumn, secondColumn, thirdColumn, leftDiagonal, rightDiagonal;
 
-                var firstColumn = s[0][0] + s[1][0] + s[2][0];
-                var secondColumn = s[0][1] + s[1][1] + s[2][1];
-                var thirdColumn = s[0][2] + s[1][2] + s[2][2];
-
-                var leftDiagonal = s[0][0] + s[1][1] + s[2][2];
-                var rightDiagonal = s[0][2] + s[1][1] + s[2][0];
+                UpdateValues(s, out firstRow, out secondRow, out thirdRow, out firstColumn, out secondColumn, out thirdColumn, out leftDiagonal, out rightDiagonal);
 
                 var ar = new int[] { firstRow, secondRow, thirdRow, firstColumn, secondColumn, thirdColumn, leftDiagonal, rightDiagonal };
 
@@ -396,6 +406,7 @@ namespace HackerRankChallenges
                     var difference = Math.Abs(SIZEMAGICSQUARE - firstRow);
                     totalCost += difference;
                     s[0][0] = firstRow > SIZEMAGICSQUARE ? s[0][0] - difference : s[0][0] + difference;
+                    UpdateValues(s, out firstRow, out secondRow, out thirdRow, out firstColumn, out secondColumn, out thirdColumn, out leftDiagonal, out rightDiagonal);
                 }
 
                 //Canto direito cima
@@ -404,6 +415,7 @@ namespace HackerRankChallenges
                     var difference = Math.Abs(SIZEMAGICSQUARE - firstRow);
                     totalCost += difference;
                     s[0][2] = firstRow > SIZEMAGICSQUARE ? s[0][2] - difference : s[0][2] + difference;
+                    UpdateValues(s, out firstRow, out secondRow, out thirdRow, out firstColumn, out secondColumn, out thirdColumn, out leftDiagonal, out rightDiagonal);
                 }
 
                 //Canto esquerdo baixo
@@ -412,6 +424,7 @@ namespace HackerRankChallenges
                     var difference = Math.Abs(SIZEMAGICSQUARE - thirdRow);
                     totalCost += difference;
                     s[2][0] = thirdRow > SIZEMAGICSQUARE ? s[2][0] - difference : s[2][0] + difference;
+                    UpdateValues(s, out firstRow, out secondRow, out thirdRow, out firstColumn, out secondColumn, out thirdColumn, out leftDiagonal, out rightDiagonal);
                 }
 
                 //Canto direito baixo
@@ -420,6 +433,7 @@ namespace HackerRankChallenges
                     var difference = Math.Abs(SIZEMAGICSQUARE - thirdRow);
                     totalCost += difference;
                     s[2][2] = thirdRow > SIZEMAGICSQUARE ? s[2][2] - difference : s[2][2] + difference;
+                    UpdateValues(s, out firstRow, out secondRow, out thirdRow, out firstColumn, out secondColumn, out thirdColumn, out leftDiagonal, out rightDiagonal);
                 }
 
                 if (secondRow != SIZEMAGICSQUARE && secondColumn != SIZEMAGICSQUARE && secondRow == secondColumn)
@@ -427,6 +441,7 @@ namespace HackerRankChallenges
                     var difference = Math.Abs(SIZEMAGICSQUARE - secondRow);
                     totalCost += difference;
                     s[1][1] = secondRow > SIZEMAGICSQUARE ? s[1][1] - difference : s[1][1] + difference;
+                    UpdateValues(s, out firstRow, out secondRow, out thirdRow, out firstColumn, out secondColumn, out thirdColumn, out leftDiagonal, out rightDiagonal);
                 }
 
                 if (thirdRow != SIZEMAGICSQUARE && thirdColumn != SIZEMAGICSQUARE && thirdRow == thirdColumn)
@@ -434,9 +449,8 @@ namespace HackerRankChallenges
                     var difference = Math.Abs(SIZEMAGICSQUARE - thirdRow);
                     totalCost += difference;
                     s[2][2] = thirdRow > SIZEMAGICSQUARE ? s[2][2] - difference : s[2][2] + difference;
+                    UpdateValues(s, out firstRow, out secondRow, out thirdRow, out firstColumn, out secondColumn, out thirdColumn, out leftDiagonal, out rightDiagonal);
                 }
-
-
 
                 //CRIAR OUTRA CONDIÇÃO PARA NÃO PERMITIR A DUPLICAÇÃO DOS NUMEROS CENTRAIS
 
@@ -446,6 +460,7 @@ namespace HackerRankChallenges
                     var difference = Math.Abs(SIZEMAGICSQUARE - firstRow);
                     totalCost += difference;
                     s[0][1] = firstRow > SIZEMAGICSQUARE ? s[0][1] - difference : s[0][1] + difference;
+                    UpdateValues(s, out firstRow, out secondRow, out thirdRow, out firstColumn, out secondColumn, out thirdColumn, out leftDiagonal, out rightDiagonal);
                 }
 
                 if (secondRow != SIZEMAGICSQUARE && firstColumn != SIZEMAGICSQUARE /*&& secondRow == firstColumn*/)
@@ -453,20 +468,23 @@ namespace HackerRankChallenges
                     var difference = Math.Abs(SIZEMAGICSQUARE - secondRow);
                     totalCost += difference;
                     s[1][0] = secondRow > SIZEMAGICSQUARE ? s[1][0] - difference : s[1][0] + difference;
+                    UpdateValues(s, out firstRow, out secondRow, out thirdRow, out firstColumn, out secondColumn, out thirdColumn, out leftDiagonal, out rightDiagonal);
                 }
 
                 if (secondRow != SIZEMAGICSQUARE && thirdColumn != SIZEMAGICSQUARE && secondRow == thirdColumn)
                 {
-                    var difference = Math.Abs(SIZEMAGICSQUARE - firstRow);
+                    var difference = Math.Abs(SIZEMAGICSQUARE - secondRow);
                     totalCost += difference;
-                    s[0][0] = secondRow > SIZEMAGICSQUARE ? s[0][0] - difference : s[0][0] + difference;
+                    s[1][2] = secondRow > SIZEMAGICSQUARE ? s[1][2] - difference : s[1][2] + difference;
+                    UpdateValues(s, out firstRow, out secondRow, out thirdRow, out firstColumn, out secondColumn, out thirdColumn, out leftDiagonal, out rightDiagonal);
                 }
 
                 if (thirdRow != SIZEMAGICSQUARE && secondColumn != SIZEMAGICSQUARE && thirdRow == secondColumn)
                 {
                     var difference = Math.Abs(SIZEMAGICSQUARE - thirdRow);
                     totalCost += difference;
-                    s[1][2] = thirdRow > SIZEMAGICSQUARE ? s[1][2] - difference : s[1][2] + difference;
+                    s[2][1] = thirdRow > SIZEMAGICSQUARE ? s[2][1] - difference : s[2][1] + difference;
+                    UpdateValues(s, out firstRow, out secondRow, out thirdRow, out firstColumn, out secondColumn, out thirdColumn, out leftDiagonal, out rightDiagonal);
                 }
 
                 list.Clear();
@@ -474,6 +492,18 @@ namespace HackerRankChallenges
             }
 
             return totalCost;
+        }
+
+        private static void UpdateValues(int[][] s, out int firstRow, out int secondRow, out int thirdRow, out int firstColumn, out int secondColumn, out int thirdColumn, out int leftDiagonal, out int rightDiagonal)
+        {
+            firstRow = s[0][0] + s[0][1] + s[0][2];
+            secondRow = s[1][0] + s[1][1] + s[1][2];
+            thirdRow = s[2][0] + s[2][1] + s[2][2];
+            firstColumn = s[0][0] + s[1][0] + s[2][0];
+            secondColumn = s[0][1] + s[1][1] + s[2][1];
+            thirdColumn = s[0][2] + s[1][2] + s[2][2];
+            leftDiagonal = s[0][0] + s[1][1] + s[2][2];
+            rightDiagonal = s[0][2] + s[1][1] + s[2][0];
         }
     }
 }
