@@ -35,61 +35,23 @@ namespace HackerRankChallenges
 
             //int[][] s = new int[][]
             //{
-            //new int [] { 4, 9, 2 },
-            //new int [] { 3, 5 ,7 },
-            //new int [] { 8 ,1 ,5 }
+            //    new int [] {1 ,3, 8},
+            //    new int [] { 6 ,4, 1 },
+            //    new int [] { 2 ,6 ,5 }
             //};
+            //Console.WriteLine(formingMagicSquare(s));
 
-            //int[][] s = new int[][]
-            //{
-            //new int [] { 4, 8, 2 },
-            //new int [] { 4, 5, 7 },
-            //new int [] { 6, 1, 6 }
-            //};
+            //var a = new List<int>() { 4, 6, 5, 3, 3, 1 };
+            //var a = new List<int>() { 1, 2, 2, 3, 1, 2 };
 
-            //int[][] s = new int[][]
-            //{
-            //new int [] {5 ,3, 4},
-            //new int [] { 1 ,5, 8 },
-            //new int [] { 6 ,4 ,2 }
-            //};
+            //var a = new List<int>() { 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66 };
+            //var a = new List<int>() { 4, 97, 5, 97, 97, 4, 97, 4, 97, 97, 97, 97, 4, 4, 5, 5, 97, 5, 97, 99, 4, 97, 5, 97, 97, 97, 5, 5, 97, 4, 5, 97, 97, 5, 97, 4, 97, 5, 4, 4, 97, 5, 5, 5, 4, 97, 97, 4, 97, 5, 4, 4, 97, 97, 97, 5, 5, 97, 4, 97, 97, 5, 4, 97, 97, 4, 97, 97, 97, 5, 4, 4, 97, 4, 4, 97, 5, 97, 97, 97, 97, 4, 97, 5, 97, 5, 4, 97, 4, 5, 97, 97, 5, 97, 5, 97, 5, 97, 97, 97 };
 
-            //int[][] s = new int[][]
-            //{
-            //new int [] {1 ,3, 8},
-            //new int [] { 6 ,4, 1 },
-            //new int [] { 2 ,6 ,5 }
-            //};
+            //pickingNumbers(a);
+            int[] scores = new int[] { 100, 100, 50, 40, 40, 20, 10 };
+            int[] alice = new int[] { 5, 25, 50, 120 };
 
-            int[][] s = new int[][]
-            {
-            new int [] {4 ,9, 2},
-            new int [] { 3 ,5, 7 },
-            new int [] { 8 ,1 ,6 }
-            };
-
-            /*  TESTAR
-             *  1 3 8
-                6 4 1
-                2 6 5 = 9
-
-                4 9 2
-                3 5 7
-                8 1 6 = 0
-
-                4 9 2
-                9 7 6
-                3 5 8 = 18
-
-                6 4 6
-                9 9 3
-                9 9 7 = 21
-
-                9 8 9
-                1 6 7
-                8 9 7 = 23*/
-
-            Console.WriteLine(formingMagicSquare(s));
+            climbingLeaderboard(scores, alice);
 
             Console.ReadLine();
         }
@@ -260,7 +222,6 @@ namespace HackerRankChallenges
             Console.WriteLine(Math.Round(positives / size, 6).ToString("N6"));
             Console.WriteLine(Math.Round(negatives / size, 6).ToString("N6"));
             Console.WriteLine(Math.Round(zeros / size, 6).ToString("N6"));
-
         }
 
         static void staircase(int n)
@@ -286,7 +247,6 @@ namespace HackerRankChallenges
             {
                 max += list[j];
             }
-
             Console.WriteLine($"{min} {max}");
         }
 
@@ -386,8 +346,6 @@ namespace HackerRankChallenges
                     moneySpent = moneySpent <= temp && temp <= b
                                             ? temp
                                             : moneySpent;
-
-
                 }
             }
             return moneySpent == 0 ? -1 : moneySpent;
@@ -446,6 +404,82 @@ namespace HackerRankChallenges
             }
 
             return totalCost.Value;
+        }
+
+        public static int pickingNumbers(List<int> a)
+        {
+            var temp = 0;
+            a.Count();
+            var list = new List<int>();
+            var orderedList = a.OrderBy(x => x);
+
+            int maxSize = 0;
+            var items = orderedList.GroupBy(x => x).Select(l => new
+            {
+                Num = l.Key,
+                Qtd = l.Count(),
+                Arr = l.ToList().Where(x => x == l.Key)
+            }).ToList();
+
+            for (int i = 0; i < items.Count(); i++)
+            {
+                for (int j = 0; j < items.Count(); j++)
+                {
+                    if (Math.Abs(items[i].Num - items[j].Num) == 1 || items[i].Num == items[j].Num)
+                    {
+                        if (items[i].Num == items[j].Num)
+                        {
+                            list.AddRange(items[i].Arr);
+                        }
+                        else
+                        {
+                            list.AddRange(items[i].Arr);
+                            list.AddRange(items[j].Arr);
+                        }
+
+                        temp = list.Count();
+                        list.Clear();
+                    }
+                    else if (items[i].Num < items[j].Num) break;
+                }
+                maxSize = temp > maxSize ? temp : maxSize;
+            }
+            return maxSize;
+        }
+
+        static int[] climbingLeaderboard(int[] scores, int[] alice)
+        {
+            var leaderBoarder = new List<int>();
+            var ranking = scores.GroupBy(x => x).Select(l => l.Key).ToList();
+
+            foreach (var aliceScore in alice)
+            {
+                var temp = 0;
+
+                for (int i = 0; i < ranking.Count(); i++)
+                {
+                    if (aliceScore < ranking[i])
+                    {
+                        if (aliceScore <= ranking[ranking.Count() - 1])
+                        {
+                            temp = ranking.Count() + 1;
+                            leaderBoarder.Add(temp);
+
+                            break;
+                        }
+
+                    }
+                    else
+                    {
+                        temp = i + 1;
+                        leaderBoarder.Add(temp);
+
+                        break;
+                    }
+                }
+            }
+
+            return leaderBoarder.ToArray();
         }
     }
 }
