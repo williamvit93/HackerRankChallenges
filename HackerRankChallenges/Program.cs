@@ -54,10 +54,28 @@ namespace HackerRankChallenges
             //new int [] { 6 ,4 ,2 }
             //};
 
+            //int[][] s = new int[][]
+            //{
+            //new int [] {1 ,3, 8},
+            //new int [] { 6 ,4, 1 },
+            //new int [] { 2 ,6 ,5 }
+            //};
+
+            int[][] s = new int[][]
+            {
+            new int [] {4 ,9, 2},
+            new int [] { 3 ,5, 7 },
+            new int [] { 8 ,1 ,6 }
+            };
+
             /*  TESTAR
              *  1 3 8
                 6 4 1
                 2 6 5 = 9
+
+                4 9 2
+                3 5 7
+                8 1 6 = 0
 
                 4 9 2
                 9 7 6
@@ -386,124 +404,48 @@ namespace HackerRankChallenges
 
         static int formingMagicSquare(int[][] s)
         {
-            const int SIZEMAGICSQUARE = 15;
-            int totalCost = 0;
+            int[][] a = new int[][] { new int[] { 2, 9, 4 }, new int[] { 7, 5, 3 }, new int[] { 6, 1, 8 } };
+            int[][] b = new int[][] { new int[] { 2, 7, 6 }, new int[] { 9, 5, 1 }, new int[] { 4, 3, 8 } };
+            int[][] c = new int[][] { new int[] { 4, 9, 2 }, new int[] { 3, 5, 7 }, new int[] { 8, 1, 6 } };
+            int[][] d = new int[][] { new int[] { 4, 3, 8 }, new int[] { 9, 5, 1 }, new int[] { 2, 7, 6 } };
+            int[][] e = new int[][] { new int[] { 6, 1, 8 }, new int[] { 7, 5, 3 }, new int[] { 2, 9, 4 } };
+            int[][] f = new int[][] { new int[] { 6, 7, 2 }, new int[] { 1, 5, 9 }, new int[] { 8, 3, 4 } };
+            int[][] g = new int[][] { new int[] { 8, 1, 6 }, new int[] { 3, 5, 7 }, new int[] { 4, 9, 2 } };
+            int[][] h = new int[][] { new int[] { 8, 3, 4 }, new int[] { 1, 5, 9 }, new int[] { 6, 7, 2 } };
 
-            var list = new List<int>();
-
-            while (list.Count() == 0 || list.GroupBy(x => x).ToList().Count() > 1)
+            var magicSquaresBase = new List<int[][]>()
             {
-                int firstRow, secondRow, thirdRow, firstColumn, secondColumn, thirdColumn, leftDiagonal, rightDiagonal;
+                a,b,c,d,e,f,g,h
+            };
 
-                UpdateValues(s, out firstRow, out secondRow, out thirdRow, out firstColumn, out secondColumn, out thirdColumn, out leftDiagonal, out rightDiagonal);
+            int? totalCost = null;
+            int[][] magicSquare = null;
 
-                var ar = new int[] { firstRow, secondRow, thirdRow, firstColumn, secondColumn, thirdColumn, leftDiagonal, rightDiagonal };
-
-                //VERIFICANDO OS VERTICES DA MATRIZ
-                //Canto esquerdo cima
-                if (firstRow != SIZEMAGICSQUARE && firstColumn != SIZEMAGICSQUARE && firstRow == firstColumn && firstRow == leftDiagonal)
+            foreach (var square in magicSquaresBase)
+            {
+                var temp = 0;
+                for (int i = 0; i < square.Length; i++)
                 {
-                    var difference = Math.Abs(SIZEMAGICSQUARE - firstRow);
-                    totalCost += difference;
-                    s[0][0] = firstRow > SIZEMAGICSQUARE ? s[0][0] - difference : s[0][0] + difference;
-                    UpdateValues(s, out firstRow, out secondRow, out thirdRow, out firstColumn, out secondColumn, out thirdColumn, out leftDiagonal, out rightDiagonal);
+                    for (int j = 0; j < square.Length; j++)
+                    {
+                        temp += Math.Abs(square[i][j] - s[i][j]);
+                    }
                 }
 
-                //Canto direito cima
-                if (firstRow != SIZEMAGICSQUARE && thirdColumn != SIZEMAGICSQUARE && firstRow == thirdColumn && firstRow == rightDiagonal)
+                if (temp < totalCost || totalCost == null)
                 {
-                    var difference = Math.Abs(SIZEMAGICSQUARE - firstRow);
-                    totalCost += difference;
-                    s[0][2] = firstRow > SIZEMAGICSQUARE ? s[0][2] - difference : s[0][2] + difference;
-                    UpdateValues(s, out firstRow, out secondRow, out thirdRow, out firstColumn, out secondColumn, out thirdColumn, out leftDiagonal, out rightDiagonal);
+                    totalCost = temp;
+                    magicSquare = square;
                 }
-
-                //Canto esquerdo baixo
-                if (thirdRow != SIZEMAGICSQUARE && firstColumn != SIZEMAGICSQUARE && thirdRow == firstColumn && thirdRow == rightDiagonal)
-                {
-                    var difference = Math.Abs(SIZEMAGICSQUARE - thirdRow);
-                    totalCost += difference;
-                    s[2][0] = thirdRow > SIZEMAGICSQUARE ? s[2][0] - difference : s[2][0] + difference;
-                    UpdateValues(s, out firstRow, out secondRow, out thirdRow, out firstColumn, out secondColumn, out thirdColumn, out leftDiagonal, out rightDiagonal);
-                }
-
-                //Canto direito baixo
-                if (thirdRow != SIZEMAGICSQUARE && thirdColumn != SIZEMAGICSQUARE && thirdRow == thirdColumn && thirdRow == leftDiagonal)
-                {
-                    var difference = Math.Abs(SIZEMAGICSQUARE - thirdRow);
-                    totalCost += difference;
-                    s[2][2] = thirdRow > SIZEMAGICSQUARE ? s[2][2] - difference : s[2][2] + difference;
-                    UpdateValues(s, out firstRow, out secondRow, out thirdRow, out firstColumn, out secondColumn, out thirdColumn, out leftDiagonal, out rightDiagonal);
-                }
-
-                if (secondRow != SIZEMAGICSQUARE && secondColumn != SIZEMAGICSQUARE && secondRow == secondColumn)
-                {
-                    var difference = Math.Abs(SIZEMAGICSQUARE - secondRow);
-                    totalCost += difference;
-                    s[1][1] = secondRow > SIZEMAGICSQUARE ? s[1][1] - difference : s[1][1] + difference;
-                    UpdateValues(s, out firstRow, out secondRow, out thirdRow, out firstColumn, out secondColumn, out thirdColumn, out leftDiagonal, out rightDiagonal);
-                }
-
-                if (thirdRow != SIZEMAGICSQUARE && thirdColumn != SIZEMAGICSQUARE && thirdRow == thirdColumn)
-                {
-                    var difference = Math.Abs(SIZEMAGICSQUARE - thirdRow);
-                    totalCost += difference;
-                    s[2][2] = thirdRow > SIZEMAGICSQUARE ? s[2][2] - difference : s[2][2] + difference;
-                    UpdateValues(s, out firstRow, out secondRow, out thirdRow, out firstColumn, out secondColumn, out thirdColumn, out leftDiagonal, out rightDiagonal);
-                }
-
-                //CRIAR OUTRA CONDIÇÃO PARA NÃO PERMITIR A DUPLICAÇÃO DOS NUMEROS CENTRAIS
-
-                //VERIFICANDO OS CANTOS CENTRAIS DA MATRIZ
-                if (firstRow != SIZEMAGICSQUARE && secondColumn != SIZEMAGICSQUARE && firstRow == secondColumn)
-                {
-                    var difference = Math.Abs(SIZEMAGICSQUARE - firstRow);
-                    totalCost += difference;
-                    s[0][1] = firstRow > SIZEMAGICSQUARE ? s[0][1] - difference : s[0][1] + difference;
-                    UpdateValues(s, out firstRow, out secondRow, out thirdRow, out firstColumn, out secondColumn, out thirdColumn, out leftDiagonal, out rightDiagonal);
-                }
-
-                if (secondRow != SIZEMAGICSQUARE && firstColumn != SIZEMAGICSQUARE /*&& secondRow == firstColumn*/)
-                {
-                    var difference = Math.Abs(SIZEMAGICSQUARE - secondRow);
-                    totalCost += difference;
-                    s[1][0] = secondRow > SIZEMAGICSQUARE ? s[1][0] - difference : s[1][0] + difference;
-                    UpdateValues(s, out firstRow, out secondRow, out thirdRow, out firstColumn, out secondColumn, out thirdColumn, out leftDiagonal, out rightDiagonal);
-                }
-
-                if (secondRow != SIZEMAGICSQUARE && thirdColumn != SIZEMAGICSQUARE && secondRow == thirdColumn)
-                {
-                    var difference = Math.Abs(SIZEMAGICSQUARE - secondRow);
-                    totalCost += difference;
-                    s[1][2] = secondRow > SIZEMAGICSQUARE ? s[1][2] - difference : s[1][2] + difference;
-                    UpdateValues(s, out firstRow, out secondRow, out thirdRow, out firstColumn, out secondColumn, out thirdColumn, out leftDiagonal, out rightDiagonal);
-                }
-
-                if (thirdRow != SIZEMAGICSQUARE && secondColumn != SIZEMAGICSQUARE && thirdRow == secondColumn)
-                {
-                    var difference = Math.Abs(SIZEMAGICSQUARE - thirdRow);
-                    totalCost += difference;
-                    s[2][1] = thirdRow > SIZEMAGICSQUARE ? s[2][1] - difference : s[2][1] + difference;
-                    UpdateValues(s, out firstRow, out secondRow, out thirdRow, out firstColumn, out secondColumn, out thirdColumn, out leftDiagonal, out rightDiagonal);
-                }
-
-                list.Clear();
-                list.AddRange(ar);
+                temp = 0;
             }
 
-            return totalCost;
-        }
+            foreach (var row in magicSquare)
+            {
+                Console.WriteLine($"{row[0]} {row[1]} {row[2]}");
+            }
 
-        private static void UpdateValues(int[][] s, out int firstRow, out int secondRow, out int thirdRow, out int firstColumn, out int secondColumn, out int thirdColumn, out int leftDiagonal, out int rightDiagonal)
-        {
-            firstRow = s[0][0] + s[0][1] + s[0][2];
-            secondRow = s[1][0] + s[1][1] + s[1][2];
-            thirdRow = s[2][0] + s[2][1] + s[2][2];
-            firstColumn = s[0][0] + s[1][0] + s[2][0];
-            secondColumn = s[0][1] + s[1][1] + s[2][1];
-            thirdColumn = s[0][2] + s[1][2] + s[2][2];
-            leftDiagonal = s[0][0] + s[1][1] + s[2][2];
-            rightDiagonal = s[0][2] + s[1][1] + s[2][0];
+            return totalCost.Value;
         }
     }
 }
