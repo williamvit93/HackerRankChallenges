@@ -59,10 +59,39 @@ namespace HackerRankChallenges
             //int[] alice = new int[] { 12, 20, 30, 32, 35, 37, 63, 72, 83, 85, 96, 98, 98, 118, 122, 125, 129, 132, 140, 144, 150, 164, 184, 191, 194, 198, 200, 220, 228, 229, 229, 236, 238, 246, 259, 271, 276, 281, 283, 287, 300, 302, 306, 307, 312, 318, 321, 325, 341, 341, 341, 344, 349, 351, 354, 356, 366, 369, 370, 379, 380, 380, 396, 405, 408, 417, 423, 429, 433, 435, 438, 441, 442, 444, 445, 445, 452, 453, 465, 466, 467, 468, 469, 471, 475, 482, 489, 491, 492, 493, 498, 500, 501, 504, 506, 508, 523, 529, 530, 539, 543, 551, 552, 556, 568, 569, 571, 587, 591, 601, 602, 606, 607, 612, 614, 619, 620, 623, 625, 625, 627, 638, 645, 653, 661, 662, 669, 670, 676, 684, 689, 690, 709, 709, 710, 716, 724, 726, 730, 731, 733, 737, 744, 744, 747, 757, 764, 765, 765, 772, 773, 774, 777, 787, 794, 796, 797, 802, 805, 811, 814, 819, 819, 829, 830, 841, 842, 847, 857, 857, 859, 860, 866, 872, 879, 882, 895, 900, 900, 903, 905, 915, 918, 918, 922, 925, 927, 928, 929, 931, 934, 937, 955, 960, 966, 974, 982, 988, 996, 996 };
 
 
-            foreach (var item in climbingLeaderboard(scores, alice))
-            {
-                Console.WriteLine(item);
-            };
+            //foreach (var item in climbingLeaderboard(scores, alice))
+            //{
+            //    Console.WriteLine(item);
+            //};
+
+
+            //var height = new int[] { 2, 5, 4, 5, 2 };
+            //var height = new int[] { 1, 6, 3, 5, 2 };
+
+            //Console.WriteLine(hurdleRace(4, height));
+
+            //var h = new int[] { 1, 3, 1, 3, 1, 4, 1, 3, 2, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 7 };
+            //string word = "zaba";
+
+            //var h = new int[] { 1, 3, 1, 3, 1, 4, 1, 3, 2, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5 };
+            //string word = "abc";
+
+            //Console.WriteLine(designerPdfViewer(h, word));
+
+            //Console.WriteLine(utopianTree(5));
+
+
+            //int[] a = new int[] { -1, -3, 4, 2 };
+            //int k = 3;
+            //int[] a = new int[] { 0, -1, 2, 1 };
+            //int k = 2;
+
+            //Console.WriteLine(angryProfessor(k, a));
+
+            //13, 45, 3
+            //1, 2000000, 23047885
+            Console.WriteLine(beautifulDays(13, 45, 3));
+
 
             Console.ReadLine();
         }
@@ -528,5 +557,114 @@ namespace HackerRankChallenges
             //return leaderBoarder.ToArray();
 
         }
+
+        static int hurdleRace(int k, int[] height)
+        {
+            var maxHeight = height.Max();
+
+            return maxHeight > k ? maxHeight - k : 0;
+        }
+
+        static int designerPdfViewer(int[] h, string word) //zaba
+        {
+            var alfabeto = new char[] { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z' };
+            int maxHeight = 0;
+
+            for (int i = 0; i < word.Length; i++)
+            {
+                var height = h[Array.IndexOf(alfabeto, word[i])];
+
+                maxHeight = height > maxHeight ? height : maxHeight;
+            }
+
+            return maxHeight * word.Length;
+        }
+
+        static int utopianTree(int n)
+        {
+            var aux = 0;
+            int height = 1;
+
+            for (int i = 0; i < n; i++)
+            {
+                aux++;
+
+                if (aux == 2)
+                {
+                    height++;
+                }
+                else
+                {
+                    height *= 2;
+                    aux = 1;
+                }
+            }
+
+            return height;
+        }
+
+        static string angryProfessor(int k, int[] a)
+        {
+            var arriveAtTime = a.GroupBy(x => new { }).Select(l => new
+            {
+                arriveAtTime = l.Where(x => x <= 0).Count()
+            }.arriveAtTime).FirstOrDefault();
+
+            return arriveAtTime >= k ? "NO" : "YES";
+        }
+
+        static int beautifulDays(int i, int j, int k)
+        {
+            Stopwatch sw = new Stopwatch();
+            sw.Start();
+            //var beautifulDays = new List<int>();
+
+            //1376 ms
+            //for (int a = i; a <= j; a++)
+            //{
+            //    if (a < 10)
+            //    {
+            //        beautifulDays++;
+            //        continue;
+            //    }
+
+            //    var aReverse = Convert.ToInt32(String.Join("", a.ToString().Reverse().ToArray()));
+
+            //    var value = Math.Abs(a - aReverse);
+
+            //    var teste = value / k;
+
+            //    beautifulDays = value % k == 0 ? beautifulDays + 1 : beautifulDays;
+            //}
+
+            int num;
+            int count = 0;
+            int gn;
+            int quo;
+            int newNum = 0;
+
+            for (int x = i; x <= j; x++)
+            {
+                num = x;
+                newNum = 0;
+                //For reversing no
+                while (num != 0)
+                {
+                    quo = num % 10;
+                    newNum = 10 * newNum + quo;
+                    num = num / 10;
+                }
+                gn = Math.Abs(x - newNum);
+                if (gn % k == 0)
+                {
+                    count++;
+                }
+            }
+
+            sw.Stop();
+            Console.WriteLine("tempo gasto :  " + sw.ElapsedMilliseconds);
+            return count;
+        }
+
     }
 }
